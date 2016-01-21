@@ -29,8 +29,18 @@ north=42
 projscale=6000000
 frame=2
 
+logo_pos="BL/6c/-1.5c/DSO[at]ntua"
+logo_pos2="-C16c/15.6c"
+legendc="-Jx1i -R0/8/0/8 -Dx18.5c/12.6c/3.6c/3.5c/BL"	
+maptitle=""
+
 # ////////////////////////////////////////////////////////////////
 # scale position parameters for velocities
 vsclon=20.2
 vsclat=34
 vscmagn=20
+
+VSC=0.05
+STRSC=50
+strsclon=20.2
+strsclat=34

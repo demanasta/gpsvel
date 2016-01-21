@@ -16,14 +16,16 @@ function help {
         echo "           -faults [:= faults] plot NOA fault database"
 	echo ""
 	echo "/*** PLOT VELOCITIES **********************************************************/"
-	echo "           -vhor (gmt_file)[:= horizontal velocities]  "
-	echo "           -vver (gmt_file)[:= vertical velocities]  "
+	echo "           -vhor (input_file)[:= horizontal velocities]  "
+	echo "           -vver (input_file)[:= vertical velocities]  "
 # 	echo "           -valign (gmt_file) plot tranverse & along velocities"
+	echo "           -vsc [:=velocity scale] change valocity scale default 0.05"
 	echo ""
-# 	echo "/*** PLOT STRAINS **********************************************************/"
-# 	echo "           -str [:= strains] Plot strain rates "
-# 	echo "           -r [:= rots] Plot rotational rates "
+	echo "/*** PLOT STRAINS **********************************************************/"
+	echo "           -str (input file)[:= strains] Plot strain rates "
+# 	echo "           -rot (input file)[:= rots] Plot rotational rates "
 # 	echo "           -dil [:=dilatation] Plot dilatation and principal axes"
+	echo "           -strsc [:=strain scale]"
 # 	echo ""
 	echo ""
         echo "/*** OTHER OPRTIONS ************************************************************/"
@@ -36,7 +38,7 @@ function help {
 	echo " Exit Status:    1 -> help message or error"
 	echo " Exit Status: >= 0 -> sucesseful exit"
 	echo ""
-	echo "run: ./plot_eq.sh -topo -faults -jpg -leg"
+	echo "run: ./gpsvelstr.sh -topo -jpg -l"
 	echo "/******************************************************************************/"
 	exit 1
 }
@@ -45,8 +47,7 @@ function help {
 # GMT parameters
 gmt gmtset MAP_FRAME_TYPE fancy
 gmt gmtset PS_PAGE_ORIENTATION portrait
-gmt gmtset FONT_ANNOT_PRIMARY 10 FONT_LABEL 10 MAP_FRAME_WIDTH 0.12c FONT_TITLE 18p
-
+gmt gmtset FONT_ANNOT_PRIMARY 10 FONT_LABEL 10 MAP_FRAME_WIDTH 0.12c FONT_TITLE 18p,Palatino-BoldItalic
 
 # //////////////////////////////////////////////////////////////////////////////
 # Pre-defined parameters for bash script
@@ -58,11 +59,12 @@ LOGO=0
 OUTJPG=0
 LEGEND=0
 
-
 VHORIZONTAL=0
 VVERTICAL=0
 # VALIGN=0
 
+STRAIN=0
+STRROT=0
 
 ##//////////////////check default param
 if [ ! -f "default-param" ]
@@ -100,6 +102,11 @@ do
 			shift
 			shift
 			;;
+		-mt)
+			maptitle=$2
+			shift
+			shift
+			;;
 		-vhor)
 			pth2vhor=${pth2inptf}/$2
 			VHORIZONTAL=1
@@ -119,13 +126,28 @@ do
 # 			shift
 # 			shift
 # 			;;
-# 		-str)
-# 			pth2comp=${pth2inptf}/${2}.comp
-# 			pth2ext=${pth2inptf}/${2}.ext
-# 			STRAINS=1
-# 			shift
-# 			shift
-# 			;;
+		-vsc)
+			VSC=$2
+			shift
+			shift
+			;;
+		-str)
+			pth2strain=${pth2inptf}/${2}
+			STRAIN=1
+			shift
+			shift
+			;;
+		-strsc)
+			STRSC=$2
+			shift
+			shift
+			;;
+		-rot)
+			pth2strain=${pth2inptf}/${2}
+			STRROT=1
+			shift
+			shift
+			;;
 		-topo)
 #                       switch topo not used in server!
 			TOPOGRAPHY=1
@@ -200,6 +222,27 @@ then
 	fi
 fi
 
+if [ "$STRAIN" -eq 1 ]
+then
+	if [ ! -f $pth2strain ]
+	then
+		echo "input file $pth2strain does not exist"
+		echo "please download it and then use this switch"
+		STRAIN=0
+		exit 1
+	fi
+fi
+
+if [ "$STRROT" -eq 1 ]
+then
+	if [ ! -f $pth2strain ]
+	then
+		echo "input file $pth2strain does not exist"
+		echo "please download it and then use this switch"
+		STRROT=0
+		exit 1
+	fi
+fi
 
 ###check NOA FAULT catalogue
 if [ "$FAULTS" -eq 1 ]
@@ -230,10 +273,10 @@ gmt	gmtset PS_MEDIA 22cx22c
 	scale="-Lf20/33.5/36:24/100+l+jr"
 	range="-R$west/$east/$south/$north"
 	proj="-Jm24/37/1:$projscale"
-	logo_pos="BL/6c/-1.5c/DSO[at]ntua"
-	logo_pos2="-C16c/15.6c"
-	legendc="-Jx1i -R0/8/0/8 -Dx18.5c/12.6c/3.6c/3.5c/BL"	
-	maptitle=""
+# 	logo_pos="BL/6c/-1.5c/DSO[at]ntua"
+# 	logo_pos2="-C16c/15.6c"
+# 	legendc="-Jx1i -R0/8/0/8 -Dx18.5c/12.6c/3.6c/3.5c/BL"	
+# 	maptitle=""
 
 
 
@@ -280,8 +323,8 @@ if [ "$VHORIZONTAL" -eq 1 ]
 then
 	awk '{print $3,$2}' $pth2vhor | gmt psxy -Jm -O -R -Sc0.15c -W0.005c -Gwhite -K >> $outfile
 
-	awk '{print $3,$2,$7,$5,$8,$6,0,$1}' $pth2vhor | gmt psvelo -R -J -Se0.05/0.95/0 -W.3p,100 -A10p+e -Gblue -O -K -L -V >> $outfile  # 205/133/63.
-	awk '{print $3,$2,$7,$5,$8,$6,0,$1}' $pth2vhor | gmt psvelo -R -J -Se0.05/0/0 -W2p,blue -A10p+e -Gblue -O -K -L -V >> $outfile  # 205/133/63.
+	awk '{print $3,$2,$7,$5,$8,$6,0,$1}' $pth2vhor | gmt psvelo -R -J -Se${VSC}/0.95/0 -W.3p,100 -A10p+e -Gblue -O -K -L -V >> $outfile  # 205/133/63.
+	awk '{print $3,$2,$7,$5,$8,$6,0,$1}' $pth2vhor | gmt psvelo -R -J -Se${VSC}/0/0 -W2p,blue -A10p+e -Gblue -O -K -L -V >> $outfile  # 205/133/63.
 
 	if [ "$LABELS" -eq 1 ]
 	then
@@ -289,27 +332,47 @@ then
 	fi
 
 ###scale
-echo "$vsclon $vsclat $vscmagn 0 0 0 0 $vscmagn mm" | gmt psvelo -R -Jm -Se0.05/0.95/10 -W2p,blue -A10p+e -Gblue -O -K -L -V >> $outfile
+echo "$vsclon $vsclat $vscmagn 0 0 0 0 $vscmagn mm" | gmt psvelo -R -Jm -Se${VSC}/0.95/10 -W2p,blue -A10p+e -Gblue -O -K -L -V >> $outfile
 fi
 
 if [ "$VVERTICAL" -eq 1 ]
 then
 	awk '{print $3,$2}' $pth2vver | gmt psxy -Jm -O -R -Sc0.15c -W0.005c -Gwhite -K >> $outfile
-	awk '{if ($9<0) print $3,$2,0,$9,0,0,0,$1}' $pth2vver | gmt psvelo -R -Jm -Se0.05/0.95/0 -W2p,red -A10p+e -Gred -O -K -L -V >> $outfile
-	awk '{if ($9>=0) print $3,$2,0,$9,0,0,0,$1}' $pth2vver | gmt psvelo -R -Jm -Se0.05/0.95/0 -W2p,blue -A10p+e -Gblue -O -K -L -V >> $outfile
+	awk '{if ($9<0) print $3,$2,0,$9,0,0,0,$1}' $pth2vver | gmt psvelo -R -Jm -Se${VSC}/0.95/0 -W2p,red -A10p+e -Gred -O -K -L -V >> $outfile
+	awk '{if ($9>=0) print $3,$2,0,$9,0,0,0,$1}' $pth2vver | gmt psvelo -R -Jm -Se${VSC}/0.95/0 -W2p,blue -A10p+e -Gblue -O -K -L -V >> $outfile
 	if [ "$LABELS" -eq 1 ]
 	then
 		 awk '{print $3,$2,9,0,1,"RB",$1}' $pth2vhor | gmt pstext -Jm -R -Dj0.2c/0.2c -Gwhite -O -K -V>> $outfile
 	fi
 ###scale
-echo "$vsclon $vsclat 0 $vscmagn  0 0 0 $vscmagn mm" | gmt psvelo -R -Jm -Se0.05/0.95/10 -W2p,blue -A10p+e -Gblue -O -K -L -V >> $outfile
+echo "$vsclon $vsclat 0 $vscmagn  0 0 0 $vscmagn mm" | gmt psvelo -R -Jm -Se$VSC/0.95/10 -W2p,blue -A10p+e -Gblue -O -K -L -V >> $outfile
 fi
 
 
 
+#////////////////////////////////////////////////////////////////
+### PLOT STRAIN RATES parameters
+
+if [ "$STRAIN" -eq 1 ]
+then
+# 	compression
+	awk '{print $3,$2,0,$6,$8+90}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A10p+e -Gblue -W2p,blue -V  -K -O>> $outfile
+# 	extension
+	awk '{print $3,$2,$4,0,$8+90}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A10p+e -Gred -W2p,red -V  -K -O>> $outfile
+
+echo "$strsclon $strsclat 0 -.01 90" | gmt psvelo -Jm $range -Sx${STRSC} -L -A10p+e -Gblue -W2p,blue -V  -K -O>> $outfile
+echo "$strsclon $strsclat .01 0 90" | gmt psvelo -Jm $range -Sx${STRSC} -L -A10p+e -Gred -W2p,red -V  -K -O>> $outfile
+echo "$strsclon $strsclat 9 0 1 CB 10 nstrain" | gmt pstext -Jm -R -Dj0c/1c -Gwhite -O -K -V>> $outfile
+
+fi
 
 
-
+#////////////////////////////////////////////////////////////////
+# ### PLOT ROTATIONAL RATES parameters
+# if [ "$STRROT" -eq 1 ]
+# then
+# 	awk '{print $3,$2,$10/1000000,$11/1000000}' $pth2strain | gmt psvelo -Jm $range -Sw1/1.e7 -Gred -E0/0/0/10 -L -A0.05/0/0  -V -K -O>> $outfile
+# fi
 
 
 
