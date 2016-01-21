@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>gps_vel_str by demanasta</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">gps_vel_str</h1>
+        <p class="header">Plot GPS velocties and strain</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/demanasta/gpsvel/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/demanasta/gpsvel/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/demanasta/gpsvel">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/demanasta">demanasta</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h1>
+
+<p>This repository includes bash scripts that use <a href="http://gmt.soest.hawaii.edu/projects/gmt">Generic Tool Maps (Wessel et al., 2013)</a> to plot teconic velocities and parameters of strain tensors</p>
+
+<hr>
+
+<p><strong>main scripts</strong></p>
+
+<ol>
+<li>gpsvelstr.sh : plots velocities and parameters of strain tensor</li>
+</ol>
+
+<p><strong>input files</strong></p>
+
+<ol>
+<li>default-param : default parameters for paths, input files and region configuration</li>
+<li>input file for velocities (example test_EUR.txt)</li>
+<li>input file for strain tensor (test.str)</li>
+</ol>
+
+<h1>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation</h1>
+
+<ul>
+<li>Be sure that gmt is installed on your computer</li>
+<li>Configure file <em>default-param</em>.</li>
+</ul>
+
+<p>If you'd like to use topography, you can download world DEM from <a href="https://www.ngdc.noaa.gov/mgg/global/global.html">here</a></p>
+
+<pre><code># //////////////////
+# Set PATHS parameters
+pth2dems=${HOME}/Map_project/dems
+inputTopoL=${pth2dems}/ETOPO1_Bed_g_gmt4.grd
+inputTopoB=${pth2dems}/ETOPO1_Bed_g_gmt4.grd
+pth2logos=$HOME/Map_project/logos
+pth2faults=$HOME/Map_project/faults/NOAFaults_v1.0.gmt
+
+#///////////////////
+# Set default REGION for GREECE
+west=19
+east=30.6
+south=33
+north=42
+projscale=6000000
+frame=2
+
+# ////////////////////////////////////////////////////////////////
+# scale position parameters for velocities
+vsclon=20.2 
+vsclat=34
+vscmagn=20
+
+VSC=0.05
+STRSC=50
+strsclon=20.2
+strsclat=34
+
+
+</code></pre>
+
+<p>For main script help function run:</p>
+
+<pre><code>  $&gt; ./gpsvelstr.sh -h 
+</code></pre>
+
+<p><strong>INPUT FILES</strong></p>
+
+<ul>
+<li>input file for velocities</li>
+</ul>
+
+<pre><code>code lat lon alt vN svN vE svE vU svU
+</code></pre>
+
+<ul>
+<li>input file for straintensor parameters</li>
+</ul>
+
+<pre><code>code lat lon Kmax sKmax Kmin sKmin Az sAz E sE gtot sgtot
+</code></pre>
+
+<p>(do not use a seperator!)</p>
+
+<h2>
+<a id="main-script-gpsvelstrsh" class="anchor" href="#main-script-gpsvelstrsh" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>MAIN SCRIPT: gpsvelstr.sh</strong>
+</h2>
+
+<p><strong>MAIN OPTIONS</strong></p>
+
+<p>Usage   : plot_eq.sh -r west east south north projscale frame| -topo | -o [output] | -jpg</p>
+
+<ul>
+<li>r      [:= region] region to plot west east south north (default Greece) use: -r west east south north projscale frame</li>
+<li>mt     [:= map title] title map default none use quotes</li>
+<li>topo   [:= topography] use DEM topography</li>
+<li>faults [:= faults] plot NOA fault database</li>
+</ul>
+
+<p><strong>PLOT VELOCITIES</strong></p>
+
+<ul>
+<li>vhor (input_file)[:= horizontal velocities] </li>
+<li>vver (input_file)[:= vertical velocities]</li>
+<li>vsc [:=velocity scale] change vElocity scale default (0.05)</li>
+</ul>
+
+<p><strong>PLOT STRAIN TENSOR PARAMETERS</strong></p>
+
+<ul>
+<li>str (input file)[:= strains] Plot strain rates</li>
+<li>strsc [:=strain scale]</li>
+</ul>
+
+<p><strong>OTHER OPRTIONS</strong></p>
+
+<ul>
+<li>o    [:= output] name of output files</li>
+<li>l    [:=labels] plot labels</li>
+<li>leg  [:=legend] insert legends</li>
+<li>logo [:=logo] plot logo</li>
+<li>jpg : convert eps file to jpg</li>
+<li>
+<p>h    [:= help] help menu</p>
+
+<p>Exit Status:    1 -&gt; help message or error
+Exit Status: &gt;= 0 -&gt; sucesseful exit</p>
+</li>
+</ul>
+
+<h2>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example:</h2>
+
+<pre><code>$&gt; ./plot_eq.sh -topo -faults -jpg -leg
+</code></pre>
+
+<hr>
+
+<h1>
+<a id="updates" class="anchor" href="#updates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Updates</h1>
+
+<ul>
+<li>
+</ul>
+
+<h1>
+<a id="references" class="anchor" href="#references" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>References</h1>
+
+<p>Ganas Athanassios, Oikonomou Athanassia I., and Tsimi Christina, 2013. NOAFAULTS: a digital database for active faults in Greece. Bulletin of the Geological Society of Greece, vol. XLVII and Proceedings of the 13th International Congress, Chania, Sept. 2013.</p>
+
+<p>Wessel, P., W. H. F. Smith, R. Scharroo, J. F. Luis, and F. Wobbe, Generic Mapping Tools: Improved version released, EOS Trans. AGU, 94, 409-410, 2013.</p>
+
+<h1>
+<a id="contact" class="anchor" href="#contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contact</h1>
+
+<p>Demitris Anastasiou, <a href="mailto:danast@mail.ntua.gr">danast@mail.ntua.gr</a></p>
+
+<p>Xanthos Papanikolaou, <a href="mailto:xanthos@mail.ntua.gr">xanthos@mail.ntua.gr</a></p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
