@@ -292,7 +292,18 @@ then
 echo "$vsclon $vsclat $vscmagn 0 0 0 0 $vscmagn mm" | gmt psvelo -R -Jm -Se0.05/0.95/10 -W2p,blue -A10p+e -Gblue -O -K -L -V >> $outfile
 fi
 
-
+if [ "$VVERTICAL" -eq 1 ]
+then
+	awk '{print $3,$2}' $pth2vver | gmt psxy -Jm -O -R -Sc0.15c -W0.005c -Gwhite -K >> $outfile
+	awk '{if ($9<0) print $3,$2,0,$9,0,0,0,$1}' $pth2vver | gmt psvelo -R -Jm -Se0.05/0.95/0 -W2p,red -A10p+e -Gred -O -K -L -V >> $outfile
+	awk '{if ($9>=0) print $3,$2,0,$9,0,0,0,$1}' $pth2vver | gmt psvelo -R -Jm -Se0.05/0.95/0 -W2p,blue -A10p+e -Gblue -O -K -L -V >> $outfile
+	if [ "$LABELS" -eq 1 ]
+	then
+		 awk '{print $3,$2,9,0,1,"RB",$1}' $pth2vhor | gmt pstext -Jm -R -Dj0.2c/0.2c -Gwhite -O -K -V>> $outfile
+	fi
+###scale
+echo "$vsclon $vsclat 0 $vscmagn  0 0 0 $vscmagn mm" | gmt psvelo -R -Jm -Se0.05/0.95/10 -W2p,blue -A10p+e -Gblue -O -K -L -V >> $outfile
+fi
 
 
 
