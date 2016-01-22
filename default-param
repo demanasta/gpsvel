@@ -5,6 +5,8 @@
 pth2dems=${HOME}/Map_project/dems
 inputTopoL=${pth2dems}/ETOPO1_Bed_g_gmt4.grd
 inputTopoB=${pth2dems}/ETOPO1_Bed_g_gmt4.grd
+# inputTopoL=${pth2dems}/ETOPO1_gr_resample01m.grd   #ETOPO1_Bed_g_gmt4.grd
+# inputTopoB=${pth2dems}/ETOPO1_gr_resample01m.grd    #ETOPO1_Bed_g_gmt4.grd
 pth2logos=$HOME/Map_project/logos/DSOlogo2.eps
 pth2faults=$HOME/Map_project/faults/NOAFaults_v1.0.gmt
 
@@ -39,8 +41,9 @@ maptitle=""
 vsclon=20.2
 vsclat=34
 vscmagn=20
-
 VSC=0.05
+
 STRSC=50
+
 strsclon=20.2
-strsclat=34
+strsclat=34.1
