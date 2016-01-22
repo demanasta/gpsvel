@@ -38,7 +38,7 @@ function help {
 	echo " Exit Status:    1 -> help message or error"
 	echo " Exit Status: >= 0 -> sucesseful exit"
 	echo ""
-	echo "run: ./gpsvelstr.sh -topo -jpg -l"
+	echo "run: ./gpsvelstr.sh -topo -jpg "
 	echo "/******************************************************************************/"
 	exit 1
 }

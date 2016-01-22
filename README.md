@@ -11,7 +11,7 @@ This repository includes bash scripts that use [Generic Tool Maps (Wessel et al.
 **input files**
 
  1. default-param : default parameters for paths, input files and region configuration
- 2. input file for velocities (example test_EUR.txt)
+ 2. input file for velocities (example test.vel)
  3. input file for strain tensor (test.str)
 
 # Documentation
@@ -21,7 +21,7 @@ This repository includes bash scripts that use [Generic Tool Maps (Wessel et al.
  - Configure file *default-param*.
 
 If you'd like to use topography, you can download world DEM from [here](https://www.ngdc.noaa.gov/mgg/global/global.html)
- 
+
 ```
 # //////////////////
 # Set PATHS parameters
@@ -43,7 +43,7 @@ frame=2
 # ////////////////////////////////////////////////////////////////
 # scale position parameters for velocities
 vsclon=20.2 
-vsclat=34
+vsclat=34 
 vscmagn=20
 
 VSC=0.05
@@ -58,11 +58,11 @@ For main script help function run:
   $> ./gpsvelstr.sh -h 
 ``` 
 **INPUT FILES**
- - input file for velocities
+ - input file for velocitiew, use mm for velocities and uncertenties
 ```
 code lat lon alt vN svN vE svE vU svU
 ```
- - input file for straintensor parameters
+ - input file for straintensor parameters, K in μstrain and Az in degrees
 ```
 code lat lon Kmax sKmax Kmin sKmin Az sAz E sE gtot sgtot
 ```
@@ -105,7 +105,18 @@ code lat lon Kmax sKmax Kmin sKmin Az sAz E sE gtot sgtot
 
 ## Example:
 ```
-$> ./plot_eq.sh -topo -faults -jpg -leg
+$ ./gpsvelstr.sh -topo -faults -jpg 
+```
+
+plot velocity test file
+
+```
+$ ./gpsvelstr.sh  -jpg -topo -vhor test.vel
+```
+plot strain rates from test file
+
+```
+$ ./gpsvelstr.sh -jpg -topo -str test.str
 ```
 
 ----------

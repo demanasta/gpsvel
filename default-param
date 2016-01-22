@@ -39,8 +39,9 @@ maptitle=""
 vsclon=20.2
 vsclat=34
 vscmagn=20
-
 VSC=0.05
+
 STRSC=50
+
 strsclon=20.2
-strsclat=34
+strsclat=34.1
