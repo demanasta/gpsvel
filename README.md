@@ -124,7 +124,7 @@ $ ./gpsvelstr.sh -jpg -topo -str test.str
 
 # Updates
 
-- 
+- 20 Jan 2016: First release gpsvelstr script.
 
 # References
 
