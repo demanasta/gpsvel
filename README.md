@@ -107,21 +107,21 @@ code lat lon Kmax sKmax Kmin sKmin Az sAz E sE gtot sgtot
 ```
 $ ./gpsvelstr.sh -topo -faults -jpg -logo
 ```
-![Example1](Example1.jpg)
+![Example1](https://raw.githubusercontent.com/demanasta/gpsvel/master/Example1.jpg)
 
 plot velocity test file
 
 ```
 $ ./gpsvelstr.sh  -jpg -topo -vhor test.vel -logo
 ```
-![Example 2](Example2.jpg)
+![Example 2](https://raw.githubusercontent.com/demanasta/gpsvel/master/Example2.jpg)
 
 plot strain rates from test file
 
 ```
 $ ./gpsvelstr.sh -jpg -topo -str test.str
 ```
-![Example 3](Example3.jpg)
+![Example 3](https://raw.githubusercontent.com/demanasta/gpsvel/master/Example3.jpg)
 ----------
 
 
