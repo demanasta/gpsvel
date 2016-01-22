@@ -119,7 +119,7 @@ $ ./gpsvelstr.sh  -jpg -topo -vhor test.vel -logo
 plot strain rates from test file
 
 ```
-$ ./gpsvelstr.sh -jpg -topo -str test.str
+$ ./gpsvelstr.sh -jpg -topo -str test.str -logo
 ```
 ![Example 3](https://raw.githubusercontent.com/demanasta/gpsvel/master/Example3.jpg)
 ----------
