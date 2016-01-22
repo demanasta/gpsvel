@@ -105,20 +105,23 @@ code lat lon Kmax sKmax Kmin sKmin Az sAz E sE gtot sgtot
 
 ## Example:
 ```
-$ ./gpsvelstr.sh -topo -faults -jpg 
+$ ./gpsvelstr.sh -topo -faults -jpg -logo
 ```
+![Example1](Example1.jpg)
 
 plot velocity test file
 
 ```
-$ ./gpsvelstr.sh  -jpg -topo -vhor test.vel
+$ ./gpsvelstr.sh  -jpg -topo -vhor test.vel -logo
 ```
+![Example 2](Example2.jpg)
+
 plot strain rates from test file
 
 ```
 $ ./gpsvelstr.sh -jpg -topo -str test.str
 ```
-
+![Example 3](Example3.jpg)
 ----------
 
 
