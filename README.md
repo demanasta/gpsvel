@@ -1,6 +1,6 @@
 # Introduction
 
-This repository includes bash scripts that use [Generic Tool Maps (Wessel et al., 2013)](http://gmt.soest.hawaii.edu/projects/gmt) to plot teconic velocities and parameters of strain tensors
+This repository includes bash scripts that use [Generic Mapping Tools (Wessel et al., 2013)](http://gmt.soest.hawaii.edu/projects/gmt) to plot teconic velocities and parameters of strain tensors
 
 
 ----------
