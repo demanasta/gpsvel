@@ -19,13 +19,14 @@ function help {
 	echo "           -vhor (input_file)[:= horizontal velocities]  "
 	echo "           -vver (input_file)[:= vertical velocities]  "
 # 	echo "           -valign (gmt_file) plot tranverse & along velocities"
-	echo "           -vsc [:=velocity scale] change valocity scale default 0.05"
+	echo "           -vsc [:=velocity scale] change velocity scale default 0.05"
 	echo ""
 	echo "/*** PLOT STRAINS **********************************************************/"
 	echo "           -str (input file)[:= strains] Plot strain rates "
-# 	echo "           -rot (input file)[:= rots] Plot rotational rates "
+	echo "           -rot (input file)[:= rots] Plot rotational rates "
 # 	echo "           -dil [:=dilatation] Plot dilatation and principal axes"
 	echo "           -strsc [:=strain scale]"
+	echo "           -rotsc [:=rotaional scale]"
 # 	echo ""
 	echo ""
         echo "/*** OTHER OPRTIONS ************************************************************/"
@@ -145,6 +146,11 @@ do
 		-rot)
 			pth2strain=${pth2inptf}/${2}
 			STRROT=1
+			shift
+			shift
+			;;
+		-rotsc)
+			ROTSC=$2
 			shift
 			shift
 			;;
@@ -359,7 +365,14 @@ then
 	awk '{print $3,$2,0,$6,$8+90}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A10p+e -Gblue -W2p,blue -V  -K -O>> $outfile
 # 	extension
 	awk '{print $3,$2,$4,0,$8+90}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A10p+e -Gred -W2p,red -V  -K -O>> $outfile
+# 	plot sd of compression
+	awk '{print $3,$2,0,$7,$8+90+$9}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A.01p+e -G40 -W.25p,40 -V  -K -O>> $outfile
+	awk '{print $3,$2,0,$7,$8+90-$9}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A.01p+e -G40 -W.25p,40 -V  -K -O>> $outfile
 
+# 	plot sd of extension
+	awk '{print $3,$2,$5,0,$8+90+9}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A.01p+e -G40 -W.25p,40 -V  -K -O>> $outfile
+	awk '{print $3,$2,$5,0,$8+90-9}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A.01p+e -G40 -W.25p,40 -V  -K -O>> $outfile
+	
 echo "$strsclon $strsclat 0 -.01 90" | gmt psvelo -Jm $range -Sx${STRSC} -L -A10p+e -Gblue -W2p,blue -V  -K -O>> $outfile
 echo "$strsclon $strsclat .01 0 90" | gmt psvelo -Jm $range -Sx${STRSC} -L -A10p+e -Gred -W2p,red -V  -K -O>> $outfile
 echo "$strsclon $strsclat 9 0 1 CB 10 nstrain" | gmt pstext -Jm -R -Dj0c/1c -Gwhite -O -K -V>> $outfile
@@ -368,11 +381,14 @@ fi
 
 
 #////////////////////////////////////////////////////////////////
-# ### PLOT ROTATIONAL RATES parameters
-# if [ "$STRROT" -eq 1 ]
-# then
-# 	awk '{print $3,$2,$10/1000000,$11/1000000}' $pth2strain | gmt psvelo -Jm $range -Sw1/1.e7 -Gred -E0/0/0/10 -L -A0.05/0/0  -V -K -O>> $outfile
-# fi
+### PLOT ROTATIONAL RATES parameters
+if [ "$STRROT" -eq 1 ]
+then
+	awk '{print $3,$2,$10/1000000,$11/1000000}' $pth2strain | gmt psvelo -Jm $range -Sw${ROTSC}/1.e7 -Gred -E0/0/0/10 -L -A0.05/0/0  -V -K -O>> $outfile
+	
+	echo "$strsclon $strsclat 0.00000005 0.00000001"| gmt psvelo -Jm $range -Sw${ROTSC}/1.e7 -Gred -E0/0/0/10 -L -A0.05/0/0  -V -K -O>> $outfile
+	echo "$strsclon $strsclat 9 0 1 CB 0.05 ppm" | gmt pstext -Jm -R -Dj0c/-.6c -Gwhite -O -K -V>> $outfile
+fi
 
 
 
