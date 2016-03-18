@@ -304,7 +304,7 @@ gmt	makecpt -Cgebco.cpt -T-7000/0/150 -Z > $bathcpt
 gmt	grdimage $inputTopoB $range $proj -C$bathcpt -K > $outfile
 gmt	pscoast $proj -P $range -Df -Gc -K -O >> $outfile
 	# land
-gmt	makecpt -Cgray.cpt -T-3000/1800/50 -Z > $landcpt
+gmt	makecpt -Cgray.cpt -T-6000/1800/50 -Z > $landcpt
 gmt	grdimage $inputTopoL $range $proj -C$landcpt  -K -O >> $outfile
 gmt	pscoast -R -J -O -K -Q >> $outfile
 	#------- coastline -------------------------------------------
