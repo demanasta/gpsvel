@@ -11,6 +11,7 @@ function help {
 	echo " Switches: "
         echo "           -r [:= region] region to plot west east south north (default Greece)"
         echo "                   use: -r west east south north projscale frame"
+        echo "           -dp[:= default parameters] chamge default arameter file"
         echo "           -mt [:= map title] title map default none use quotes"
         echo "           -topo [:= update catalogue] title map default none use quotes"
         echo "           -faults [:= faults] plot NOA fault database"
@@ -25,8 +26,8 @@ function help {
 	echo "           -str (input file)[:= strains] Plot strain rates "
 	echo "           -rot (input file)[:= rots] Plot rotational rates "
 # 	echo "           -dil [:=dilatation] Plot dilatation and principal axes"
-	echo "           -strsc [:=strain scale]"
-	echo "           -rotsc [:=rotaional scale]"
+	echo "           -strsc [:=strain rates scale]"
+	echo "           -rotsc [:=rotational rates scale]"
 # 	echo ""
 	echo ""
         echo "/*** OTHER OPRTIONS ************************************************************/"
@@ -53,6 +54,7 @@ gmt gmtset FONT_ANNOT_PRIMARY 10 FONT_LABEL 10 MAP_FRAME_WIDTH 0.12c FONT_TITLE 
 # //////////////////////////////////////////////////////////////////////////////
 # Pre-defined parameters for bash script
 # REGION="greece"
+# dbfile="default-param"
 TOPOGRAPHY=0
 FAULTS=0
 LABELS=0
@@ -67,15 +69,22 @@ VVERTICAL=0
 STRAIN=0
 STRROT=0
 
+# //////////////////////////////////////////////////////////////////////////////
+# GET COMMAND LINE ARGUMENTS
+if [ "$#" == "0" ]
+then
+	help
+fi
+
+
 ##//////////////////check default param
-if [ ! -f "default-param" ]
+if [ ! -f default-param ]
 then
 	echo "default-param file does not exist"
 	exit 1
 else
 	source default-param
 fi
-
 
 # //////////////////////////////////////////////////////////////////////////////
 # GET COMMAND LINE ARGUMENTS
@@ -365,13 +374,14 @@ then
 	awk '{print $3,$2,0,$6,$8+90}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A10p+e -Gblue -W2p,blue -V  -K -O>> $outfile
 # 	extension
 	awk '{print $3,$2,$4,0,$8+90}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A10p+e -Gred -W2p,red -V  -K -O>> $outfile
+
 # 	plot sd of compression
-	awk '{print $3,$2,0,$7,$8+90+$9}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A.01p+e -G40 -W.25p,40 -V  -K -O>> $outfile
-	awk '{print $3,$2,0,$7,$8+90-$9}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A.01p+e -G40 -W.25p,40 -V  -K -O>> $outfile
+	awk '{print $3,$2,0,$7,$8+90+$9}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A.01p+e -G40 -W.27p,40 -V  -K -O>> $outfile
+	awk '{print $3,$2,0,$7,$8+90-$9}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A.01p+e -G40 -W.27p,40 -V  -K -O>> $outfile
 
 # 	plot sd of extension
-	awk '{print $3,$2,$5,0,$8+90+9}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A.01p+e -G40 -W.25p,40 -V  -K -O>> $outfile
-	awk '{print $3,$2,$5,0,$8+90-9}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A.01p+e -G40 -W.25p,40 -V  -K -O>> $outfile
+	awk '{print $3,$2,$5,0,$8+90+9}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A.01p+e -G40 -W.27p,40 -V  -K -O>> $outfile
+	awk '{print $3,$2,$5,0,$8+90-9}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A.01p+e -G40 -W.27p,40 -V  -K -O>> $outfile
 	
 echo "$strsclon $strsclat 0 -.01 90" | gmt psvelo -Jm $range -Sx${STRSC} -L -A10p+e -Gblue -W2p,blue -V  -K -O>> $outfile
 echo "$strsclon $strsclat .01 0 90" | gmt psvelo -Jm $range -Sx${STRSC} -L -A10p+e -Gred -W2p,red -V  -K -O>> $outfile

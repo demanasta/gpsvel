@@ -11,7 +11,8 @@ pth2logos=$HOME/Map_project/logos/DSOlogo2.eps
 pth2faults=$HOME/Map_project/faults/NOAFaults_v1.0.gmt
 
 #Path to input file directory
-pth2inptf=$(pwd)
+# pth2inptf=$(pwd)
+pth2inptf=${HOME}/PhD_project/GeoToolbox/output
 
 
 #outfiles
