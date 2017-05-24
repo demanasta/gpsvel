@@ -2,6 +2,9 @@
 
 This repository includes bash scripts that use [Generic Mapping Tools (Wessel et al., 2013)](http://gmt.soest.hawaii.edu/projects/gmt) to plot teconic velocities and parameters of strain tensors
 
+<!-- [![Build Status](https://api.travis-ci.org/kks32/phd-thesis-template.svg)](https://travis-ci.org/kks32/phd-thesis-template) -->
+[![License GPL-3.0](http://img.shields.io/badge/license-GPL-brightgreen.svg)](LICENSE)
+[![Version](http://img.shields.io/badge/version-1.0-brightgreen.svg)](https://github.com/demanasta/gpsvel/releases/latest)
 
 ----------
 **main scripts**
