@@ -29,7 +29,6 @@ function help {
 # 	echo "           -dil [:=dilatation] Plot dilatation and principal axes"
 	echo "           -strsc [:=strain rates scale]"
 	echo "           -rotsc [:=rotational rates scale]"
-# 	echo ""
 	echo ""
         echo "/*** OTHER OPRTIONS ************************************************************/"
 	echo "           -o [:= output] name of output files"
@@ -97,7 +96,6 @@ do
 			north=$5
 			projscale=$6
 			frame=$7
-# 			REGION=$2
 			shift
 			shift
 			shift
@@ -296,9 +294,6 @@ then
 fi
 
 
-
-
-
 # //////////////////////////////////////////////////////////////////////////////
 # SET REGION PROPERTIES
 	#these are default for GREECE REGION
@@ -306,12 +301,6 @@ gmt	gmtset PS_MEDIA 22cx22c
 	scale="-Lf20/33.5/36:24/100+l+jr"
 	range="-R$west/$east/$south/$north"
 	proj="-Jm24/37/1:$projscale"
-# 	logo_pos="BL/6c/-1.5c/DSO[at]ntua"
-# 	logo_pos2="-C16c/15.6c"
-# 	legendc="-Jx1i -R0/8/0/8 -Dx18.5c/12.6c/3.6c/3.5c/BL"	
-# 	maptitle=""
-
-
 
 
 # ####################### TOPOGRAPHY ###########################
@@ -420,22 +409,6 @@ fi
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # ///////////////// PLOT LEGEND //////////////////////////////////
 if [ "$LEGEND" -eq 1 ]
 then
@@ -467,12 +440,3 @@ rm *cpt
 
 # historic eq papazachos reference
 echo $?
-
-
-
-
-
-
-
-
-
