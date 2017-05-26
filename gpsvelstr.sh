@@ -1,17 +1,18 @@
 #!/bin/bash
+version="1.0.1"
 # //////////////////////////////////////////////////////////////////////////////
 # HELP FUNCTION
 function help {
 	echo "/******************************************************************************/"
 	echo " Program Name : gpsvelstr.sh"
-	echo " Version : v-0.1"
+	echo " Version : v${version}"
 	echo " Purpose : Plot velocities and strains"
 	echo " Default param file: default-param"
 	echo " Usage   :gpsvelstr.sh -r west east south north | -topo | -o [output] | -jpg "
 	echo " Switches: "
         echo "           -r [:= region] region to plot west east south north (default Greece)"
         echo "                   use: -r west east south north projscale frame"
-        echo "           -dp[:= default parameters] chamge default arameter file"
+       	echo "           -param (paramfile) change default parmeters file"
         echo "           -mt [:= map title] title map default none use quotes"
         echo "           -topo [:= update catalogue] title map default none use quotes"
         echo "           -faults [:= faults] plot NOA fault database"
@@ -69,21 +70,14 @@ VVERTICAL=0
 STRAIN=0
 STRROT=0
 
+#paths to default files
+pth2param=default-param
+
 # //////////////////////////////////////////////////////////////////////////////
 # GET COMMAND LINE ARGUMENTS
 if [ "$#" == "0" ]
 then
 	help
-fi
-
-
-##//////////////////check default param
-if [ ! -f default-param ]
-then
-	echo "default-param file does not exist"
-	exit 1
-else
-	source default-param
 fi
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -109,6 +103,11 @@ do
 			shift
 			shift
 			shift
+			shift
+			shift
+			;;
+		-param)
+			pth2param=$2
 			shift
 			shift
 			;;
@@ -200,6 +199,25 @@ do
 	esac
 done
 
+#///START
+	echo "/******************************************************************************/"
+	echo " Program Name : gpsvelstr.sh"
+	echo " Version : v${version}"
+	echo " Purpose : Plot GPS velocties and strains  "
+	echo " Parameters file: ${pth2param}"
+	echo "/******************************************************************************/"
+
+# //////////////////////////////////////////////////////////////////////////////
+#LOAD DEFAULT PARAMETERS
+echo "... load default parameters file ..."
+##//////////////////check default param
+if [ ! -f ${pth2param} ]
+then
+	echo "ERROR: parameters file does not exist, use default or another one"
+	exit 1
+else
+	source ${pth2param}
+fi
 
 # //////////////////////////////////////////////////////////////////////////////
 # check if files exist
