@@ -1,6 +1,6 @@
 # Introduction
 
-This repository includes bash scripts that use [Generic Tool Maps (Wessel et al., 2013)](http://gmt.soest.hawaii.edu/projects/gmt) to plot teconic velocities and parameters of strain tensors
+This repository includes bash scripts that use [Generic Mapping Tools (Wessel et al., 2013)](http://gmt.soest.hawaii.edu/projects/gmt) to plot teconic velocities and parameters of strain tensors
 
 <!-- [![Build Status](https://api.travis-ci.org/kks32/phd-thesis-template.svg)](https://travis-ci.org/kks32/phd-thesis-template) -->
 [![License GPL-3.0](http://img.shields.io/badge/license-GPL-brightgreen.svg)](LICENSE)
@@ -108,26 +108,30 @@ code lat lon Kmax sKmax Kmin sKmin Az sAz E sE gtot sgtot
 
 ## Example:
 ```
-$ ./gpsvelstr.sh -topo -faults -jpg 
+$ ./gpsvelstr.sh -topo -faults -jpg -logo
 ```
+![Example1](https://raw.githubusercontent.com/demanasta/gpsvel/master/Example1.jpg)
 
 plot velocity test file
 
 ```
-$ ./gpsvelstr.sh  -jpg -topo -vhor test.vel
+$ ./gpsvelstr.sh  -jpg -topo -vhor test.vel -logo
 ```
+![Example 2](https://raw.githubusercontent.com/demanasta/gpsvel/master/Example2.jpg)
+
 plot strain rates from test file
 
 ```
-$ ./gpsvelstr.sh -jpg -topo -str test.str
+$ ./gpsvelstr.sh -jpg -topo -str test.str -logo
 ```
-
+![Example 3](https://raw.githubusercontent.com/demanasta/gpsvel/master/Example3.jpg)
 ----------
 
 
 # Updates
 
 - 20 Jan 2016: First release gpsvelstr script.
+- 03 Aug 2023: Turn to GT v 6.3.0
 
 # References
 
@@ -137,8 +141,7 @@ Wessel, P., W. H. F. Smith, R. Scharroo, J. F. Luis, and F. Wobbe, Generic Mappi
 
 # Contact
 
-Demitris Anastasiou, danast@mail.ntua.gr
+Dimitris Anastasiou, danastasiou@mail.ntua.gr
 
 Xanthos Papanikolaou, xanthos@mail.ntua.gr
-
 

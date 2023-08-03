@@ -1,5 +1,5 @@
 #!/bin/bash
-version="1.0.1"
+version="1.0.3"
 # //////////////////////////////////////////////////////////////////////////////
 # HELP FUNCTION
 function help {
@@ -12,7 +12,7 @@ function help {
 	echo " Switches: "
         echo "           -r [:= region] region to plot west east south north (default Greece)"
         echo "                   use: -r west east south north projscale frame"
-       	echo "           -param (paramfile) change default parmeters file"
+#       	echo "           -param (paramfile) change default parmeters file"
         echo "           -mt [:= map title] title map default none use quotes"
         echo "           -topo [:= update catalogue] title map default none use quotes"
         echo "           -faults [:= faults] plot NOA fault database"
@@ -42,6 +42,9 @@ function help {
 	echo ""
 	echo "run: ./gpsvelstr.sh -topo -jpg "
 	echo "/******************************************************************************/"
+    echo " History:"
+    echo "   2017.xx.xx : Initial v1.0.1 version"
+    echo "   2023.08.03 : turn to GMT v6.3"
 	exit 1
 }
 
@@ -69,10 +72,19 @@ VVERTICAL=0
 STRAIN=0
 STRROT=0
 
-#paths to default files
-pth2param=default-param
-
 # //////////////////////////////////////////////////////////////////////////////
+#LOAD DEFAULT PARAMETERS
+echo "... load default parameters file ..."
+
+##//////////////////check default param
+if [ ! -f "default-param" ]
+then
+	echo "default-param file does not exist"
+	exit 1
+else
+	source default-param
+fi
+
 # GET COMMAND LINE ARGUMENTS
 if [ "$#" == "0" ]
 then
@@ -116,6 +128,7 @@ do
 			;;
 		-vhor)
 			pth2vhor=${pth2inptf}/$2
+			echo ${pth2vhor}
 			VHORIZONTAL=1
 			shift
 			shift
@@ -202,20 +215,12 @@ done
 	echo " Program Name : gpsvelstr.sh"
 	echo " Version : v${version}"
 	echo " Purpose : Plot GPS velocties and strains  "
-	echo " Parameters file: ${pth2param}"
+	echo " Parameters file: default-param"
 	echo "/******************************************************************************/"
 
-# //////////////////////////////////////////////////////////////////////////////
-#LOAD DEFAULT PARAMETERS
-echo "... load default parameters file ..."
-##//////////////////check default param
-if [ ! -f ${pth2param} ]
-then
-	echo "ERROR: parameters file does not exist, use default or another one"
-	exit 1
-else
-	source ${pth2param}
-fi
+
+
+
 
 # //////////////////////////////////////////////////////////////////////////////
 # check if files exist
@@ -316,11 +321,11 @@ if [ "$TOPOGRAPHY" -eq 1 ]
 then
 	# ####################### TOPOGRAPHY ###########################
 	# bathymetry
-gmt	makecpt -Cgebco.cpt -T-7000/0/150 -Z > $bathcpt
+gmt	makecpt -Cgebco -T-7000/0/150 -Z > $bathcpt
 gmt	grdimage $inputTopoB $range $proj -C$bathcpt -K > $outfile
 gmt	pscoast $proj -P $range -Df -Gc -K -O >> $outfile
 	# land
-gmt	makecpt -Cgray.cpt -T-6000/1800/50 -Z > $landcpt
+gmt	makecpt -Cgray -T-6000/1800/50 -Z > $landcpt
 gmt	grdimage $inputTopoL $range $proj -C$landcpt  -K -O >> $outfile
 gmt	pscoast -R -J -O -K -Q >> $outfile
 	#------- coastline -------------------------------------------
