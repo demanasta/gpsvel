@@ -133,7 +133,7 @@ $ ./gpsvelstr.sh -jpg -topo -str test.str -logo
 - 20 Jan 2016: First release gpsvelstr script.
 - 03 Aug 2023: Turn to GT v 6.3.0
 
-# References
+# Reference￼s
 
 Ganas Athanassios, Oikonomou Athanassia I., and Tsimi Christina, 2013. NOAFAULTS: a digital database for active faults in Greece. Bulletin of the Geological Society of Greece, vol. XLVII and Proceedings of the 13th International Congress, Chania, Sept. 2013.
 
