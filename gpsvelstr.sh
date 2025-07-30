@@ -181,7 +181,7 @@ do
 		-faults)
 			FAULTS=1
 			shift
-			;;	
+			;;
 		-o)
 			outfile=${2}.eps
 			out_jpg=${2}.jpg
@@ -303,7 +303,7 @@ fi
 # SET REGION PROPERTIES
 	#these are default for GREECE REGION
 gmt	gmtset PS_MEDIA 22cx22c
-	scale="-Lf20/33.5/36:24/100+l+jr"
+#	scale="-Lf20/33.5/36:24/100+l+jr"
 	range="-R$west/$east/$south/$north"
 	proj="-Jm24/37/1:$projscale"
 
@@ -311,7 +311,7 @@ gmt	gmtset PS_MEDIA 22cx22c
 # ####################### TOPOGRAPHY ###########################
 if [ "$TOPOGRAPHY" -eq 0 ]
 then
-	################## Plot coastlines only ######################	
+	################## Plot coastlines only ######################
 gmt	psbasemap $range $proj $scale -B$frame:."$maptitle": -P -K > $outfile
 gmt	pscoast -R -J -O -K -W0.25 -G195 -Df -Na -U$logo_pos >> $outfile
 # 	pscoast -Jm -R -Df -W0.25p,black -G195  -U$logo_pos -K -O -V >> $outfile
@@ -329,8 +329,8 @@ gmt	makecpt -Cgray -T-6000/1800/50 -Z > $landcpt
 gmt	grdimage $inputTopoL $range $proj -C$landcpt  -K -O >> $outfile
 gmt	pscoast -R -J -O -K -Q >> $outfile
 	#------- coastline -------------------------------------------
-gmt	psbasemap -R -J -O -K -B$frame:."$maptitle":  $scale >> $outfile
-gmt	pscoast -J -R -Df -W0.25p,black -K  -O -U$logo_pos >> $outfile
+gmt	psbasemap -R -J -O -K -B$frame:."$maptitle":  >> $outfile
+gmt	pscoast -J -R -Df -W0.25p,black -K  -O -U$logo_pos $scale >> $outfile
 fi
 
 
@@ -394,7 +394,7 @@ then
 # 	plot sd of extension
 	awk '{print $3,$2,$5,0,$8+90+9}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A.01p+e -G40 -W.27p,40 -V  -K -O>> $outfile
 	awk '{print $3,$2,$5,0,$8+90-9}' $pth2strain | gmt psvelo -Jm $range -Sx${STRSC} -L -A.01p+e -G40 -W.27p,40 -V  -K -O>> $outfile
-	
+
 echo "$strsclon $strsclat 0 -.01 90" | gmt psvelo -Jm $range -Sx${STRSC} -L -A10p+e -Gblue -W2p,blue -V  -K -O>> $outfile
 echo "$strsclon $strsclat .01 0 90" | gmt psvelo -Jm $range -Sx${STRSC} -L -A10p+e -Gred -W2p,red -V  -K -O>> $outfile
 echo "$strsclon $strsclat 9 0 1 CB 10 nstrain" | gmt pstext -Jm -R -Dj0c/1c -Gwhite -O -K -V>> $outfile
@@ -407,7 +407,7 @@ fi
 if [ "$STRROT" -eq 1 ]
 then
 	awk '{print $3,$2,$10/1000000,$11/1000000}' $pth2strain | gmt psvelo -Jm $range -Sw${ROTSC}/1.e7 -Gred -E0/0/0/10 -L -A0.05/0/0  -V -K -O>> $outfile
-	
+
 	echo "$strsclon $strsclat 0.00000005 0.00000001"| gmt psvelo -Jm $range -Sw${ROTSC}/1.e7 -Gred -E0/0/0/10 -L -A0.05/0/0  -V -K -O>> $outfile
 	echo "$strsclon $strsclat 9 0 1 CB 0.05 ppm" | gmt pstext -Jm -R -Dj0c/-.6c -Gwhite -O -K -V>> $outfile
 fi
@@ -432,7 +432,8 @@ echo "9999 9999" | gmt psxy -J -R  -O >> $outfile
 #################--- Convert to jpg format ----##########################################
 if [ "$OUTJPG" -eq 1 ]
 then
-	gs -sDEVICE=jpeg -dJPEGQ=100 -dNOPAUSE -dBATCH -dSAFER -r300 -sOutputFile=$out_jpg $outfile
+	#gs -sDEVICE=jpeg -dJPEGQ=100 -dNOPAUSE -dBATCH -dSAFER -r300 -sOutputFile=$out_jpg $outfile
+    gmt psconvert ${outfile} -A0.2c -Tj
 fi
 
 # ///////////////// REMOVE TMP FILES //////////////////////////////////

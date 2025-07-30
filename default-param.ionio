@@ -1,0 +1,48 @@
+#!/bin/bash
+#use this file to cheange default parameters for plots
+# //////////////////////////////////////////////////////////////////////////////
+# Set PATHS parameters
+pth2dems=${HOME}/Map_project/dems
+inputTopoL=${pth2dems}/ETOPO1_gr_resample01m.grd #ETOPO1_Bed_g_gmt4.grd
+inputTopoB=${pth2dems}/ETOPO1_gr_resample01m.grd #ETOPO1_Bed_g_gmt4.grd
+pth2logos=$HOME/Map_project/logos/DSOlogo2.eps
+pth2faults=$HOME/Map_project/faults/NOAFaults_v1.0.gmt
+
+#outfiles
+outfile=testvel.eps
+out_jpg=testvel.jpg
+#colormaps
+landcpt=land_man.cpt
+bathcpt=bath_man.cpt
+
+#Path to input file directory
+# pth2inptf=$(pwd)
+pth2inptf=${HOME}/PhD_project/GeoToolbox/output
+
+# //////////////////////////////////////////////////////////////////////////////
+Set default REGION for IONIO - PATRA
+west=20
+east=22.4
+south=37.3
+north=39.2
+projscale=1250000
+frame=1
+gmt	gmtset PS_MEDIA 26cx22c
+scale="-Lf20/33.5/36:24/100+l+jr"
+logo_pos="BL/6c/-1.5c/DSO[at]ntua"
+logo_pos2="-C15.6c/15.9c"
+legendc="-Jx1i -R0/8/0/8 -Dx18.5c/12.6c/3.6c/3.5c/BL"	
+maptitle=""
+
+# ////////////////////////////////////////////////////////////////
+# scale position parameters for velocities
+vsclon=20.2
+vsclat=34
+vscmagn=20
+VSC=0.05
+
+STRSC=50
+ROTSC=1
+
+strsclon=20.2
+strsclat=34.1

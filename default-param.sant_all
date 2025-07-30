@@ -1,0 +1,53 @@
+#!/bin/bash
+#use this file to cheange default parameters for plots
+# //////////////////////////////////////////////////////////////////////////////
+# Set PATHS parameters
+pth2dems=${HOME}/Map_project/dems
+inputTopoL=${pth2dems}/ETOPO1_Bed_g_gmt4.grd
+inputTopoB=${pth2dems}/ETOPO1_Bed_g_gmt4.grd
+# inputTopoL=${pth2dems}/ETOPO1_gr_resample01m.grd   #ETOPO1_Bed_g_gmt4.grd
+# inputTopoB=${pth2dems}/ETOPO1_gr_resample01m.grd    #ETOPO1_Bed_g_gmt4.grd
+pth2logos=$HOME/Map_project/logos/DSOlogo2.eps
+pth2faults=$HOME/Map_project/faults/NOAFaults_v5.01.gmt
+
+#Path to input file directory
+pth2inptf=$(pwd)
+# pth2inptf=${HOME}/PhD_project/GeoToolbox/output
+
+
+#outfiles
+outfile=testvel.eps
+out_jpg=testvel.jpg
+#colormaps
+landcpt=land_man.cpt
+bathcpt=bath_man.cpt
+
+
+# //////////////////////////////////////////////////////////////////////////////
+# Set default REGION for GREECE
+west=24
+east=26.5
+south=35.8
+north=37.25
+projscale=1250000
+frame=0.5
+
+logo_pos="BL/0.1c/0.1c/DSO[at]ntua"
+logo_pos2="-Dx0.1c/11.6c"
+legendc="-Jx1i -R0/8/0/8 -Dx18.5c/12.6c/3.6c/3.5c/BL"	
+maptitle=""
+
+# ////////////////////////////////////////////////////////////////
+# scale position parameters for velocities
+vsclon=26.17
+vsclat=35.98
+vscmagn=20
+VSC=0.05
+
+STRSC=50
+ROTSC=1
+
+strsclon=26.2
+strsclat=36.1
+
+scale="-Lf26.17/35.89/36:24/30+l+jr"

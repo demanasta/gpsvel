@@ -25,27 +25,29 @@ bathcpt=bath_man.cpt
 
 # //////////////////////////////////////////////////////////////////////////////
 # Set default REGION for GREECE
-west=19
-east=30.6
-south=33
-north=42
-projscale=6000000
-frame=2
+west=25.27
+east=25.53
+south=36.3
+north=36.5
+projscale=135000
+frame=0.1
 
-logo_pos="BL/6c/-1.5c/DSO[at]ntua"
-logo_pos2="-Dx16c/15.6c"
+logo_pos="BL/0.1c/0.1c/DSO[at]ntua"
+logo_pos2="-Dx15.95c/15.1c"
 legendc="-Jx1i -R0/8/0/8 -Dx18.5c/12.6c/3.6c/3.5c/BL"	
 maptitle=""
 
 # ////////////////////////////////////////////////////////////////
 # scale position parameters for velocities
-vsclon=20.2
-vsclat=34
+vsclon=25.308
+vsclat=36.325
 vscmagn=20
-VSC=0.05
+VSC=0.1
 
 STRSC=50
 ROTSC=1
 
-strsclon=20.2
-strsclat=34.1
+strsclon=26.2
+strsclat=36.1
+
+scale="-Lf25.308/36.315/36:24/5+l+jr"
